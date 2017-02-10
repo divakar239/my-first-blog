@@ -1,21 +1,15 @@
-<html>
-	<head>
-		<title> The Django Blog</title>
-	</head>
 
-	<body>
-		<div>
-			<h1><a href="">The Django Blog</a></h1>
-		</div>
+{% extends 'blog/base.html' %}    <!-- This file acts as a block that is plugged in the base.html filr; this declaration coonestd the 2 files indicating that this file is to be used as an extension of the base.html -->
 
-		<!--Mix of template and HTML tags to iterate over a list of posts and access their attributes to display them on the web-page-->
-		
-		{% for post in posts %}
-			<div>		
-				<p>published: {{ post.published_date }}</p>
-				<h1><a href="">{{ post.title }}</a></h1>
-				<p>{{ post.text|linebreaksbr }}</p>				<!-- The linbreaksbr is piping the posts' text through a filter to convert line-breaks into paragraphs-->
+{% block content %}
+	{% for post in posts %}
+			<div class="post">
+			 	<div class="date">
+	    		<p>published: {{ post.published_date }}</p>
 			</div>
-		{% endfor %}
-	</body>
-</html>
+			<h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>    <!-- pk stands for primary key; its a unoque name for each record in a database. If we dont specify one then one is ceated for us and is incremented by 1 for each element in the Post Model. -->
+			
+			<p>{{ post.text|linebreaksbr }}</p>
+		</div>
+	{% endfor %}
+{% endblock %}
